@@ -13,12 +13,18 @@
         <input type="text" id="seccio" name="seccio" required>
         <button type="submit">Cercar</button>
     </form>
-</body>
-</html>
-<?php
-$db = new SQLite3('diariLocal.db');
-    $resultats = $db->query("SELECT * FROM noticies WHERE not_titular LIKE 'seccio' ORDER BY not_data DESC");
+    <?php
+    $contador = 0;
+    $seccio = $_GET['seccio'];
+    $db = new SQLite3('diariLocal.db');
+    $resultats = $db->query("SELECT * FROM noticies WHERE not_titular LIKE '%$seccio%' ORDER BY not_data DESC");
     while ($fila = $resultats->fetchArray(SQLITE3_ASSOC)) {
         echo "ID: " . $fila['not_id'] . " - Titular: " . $fila['not_titular'] . " - Cos: " . $fila['not_cos'] . " - Data: " . $fila['not_data'] . " - Secció: " . $fila['not_seccio'] . "<br>";
+        $contador ++;
+    }
+    if($contador == 0){
+        echo "ERROR NOTICIA NO TROBADA TORNI A PROVAR ESCRIVINT ALGUNA ALTRE COSA";
     }
 ?>
+</body>
+</html>
